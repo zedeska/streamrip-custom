@@ -106,7 +106,7 @@ class Track(Media):
 
         self.download_path = os.path.join(
             self.folder,
-            f"{track_path}.{self.downloadable.extension}",
+            track_path,
         )
 
 
