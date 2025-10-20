@@ -68,6 +68,12 @@ def coro(f):
     help="Convert the downloaded files to an audio codec (ALAC, FLAC, MP3, AAC, or OGG)",
 )
 @click.option(
+    "-o",
+    "--output-format",
+    help="Change the output file naming format (uses the same syntax as the config file)",
+    type=str,
+)
+@click.option(
     "--no-progress",
     help="Do not show progress bars",
     is_flag=True,
@@ -87,7 +93,7 @@ def coro(f):
 )
 @click.pass_context
 def rip(
-    ctx, config_path, folder, no_db, quality, codec, no_progress, no_ssl_verify, verbose
+    ctx, config_path, folder, no_db, quality, codec, output_format, no_progress, no_ssl_verify, verbose
 ):
     """Streamrip: the all in one music downloader."""
     global logger
@@ -143,6 +149,9 @@ def rip(
         c.session.database.downloads_enabled = False
     if folder is not None:
         c.session.downloads.folder = folder
+
+    if output_format is not None:
+        c.session.filepaths.track_format = output_format
 
     if quality is not None:
         c.session.qobuz.quality = quality
